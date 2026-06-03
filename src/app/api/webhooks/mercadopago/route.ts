@@ -6,6 +6,14 @@ const client = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN || '',
 });
 
+export async function GET() {
+  return NextResponse.json({ status: "Webhook endpoint is active" });
+}
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { status: 200 });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

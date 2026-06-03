@@ -2,18 +2,44 @@
 import { Clock, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function OrderPending() {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [qrCodeBase64, setQrCodeBase64] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const orderId = searchParams.get('order');
+
   useEffect(() => {
     // Busca o QR code do sessionStorage gerado no momento do checkout
     setQrCode(sessionStorage.getItem('pix_qr_code'));
     setQrCodeBase64(sessionStorage.getItem('pix_qr_code_base64'));
-  }, []);
 
+    if (!orderId) return;
+
+    // Função que verifica o status no Supabase
+    const checkPaymentStatus = async () => {
+      const { supabase } = await import('@/lib/supabase');
+      const { data } = await supabase
+        .from('orders')
+        .select('payment_status')
+        .eq('id', orderId)
+        .single();
+      
+      if (data && data.payment_status === 'approved') {
+        router.push(`/pedido/sucesso?order=${orderId}`);
+      }
+    };
+
+    // Roda imediatamente uma vez e depois a cada 3 segundos
+    checkPaymentStatus();
+    const interval = setInterval(checkPaymentStatus, 3000);
+
+    return () => clearInterval(interval);
+  }, [orderId, router]);
   const handleCopy = () => {
     if (qrCode) {
       navigator.clipboard.writeText(qrCode);
