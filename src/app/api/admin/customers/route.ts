@@ -15,6 +15,7 @@ export async function GET() {
   const { data, error } = await supabase
     .from('orders')
     .select('customer_email, customer_name, customer_phone, total_amount, created_at')
+    .eq('payment_status', 'approved')
     .order('created_at', { ascending: false });
 
   if (error) {
