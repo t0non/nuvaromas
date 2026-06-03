@@ -146,12 +146,12 @@ export default function PaymentBrickForm() {
           {cart.map((item, idx) => (
              <div key={idx} className="flex justify-between items-center text-xs text-texto-escuro/60 mb-2 pb-2 border-b border-cinza-suave/40">
                <span>{item.qty}x {item.name} ({item.aroma})</span>
-               <span className="font-semibold text-texto-escuro">R$ {item.priceNum * item.qty},00</span>
+               <span className="font-semibold text-texto-escuro">R$ {(item.priceNum * item.qty).toFixed(2).replace('.', ',')}</span>
              </div>
           ))}
           <div className="flex justify-between items-center text-sm font-bold text-texto-escuro pt-1">
             <span>Valor Total</span>
-            <span className="text-deep-purple text-base">R$ {cartTotal},00</span>
+            <span className="text-deep-purple text-base">R$ {cartTotal.toFixed(2).replace('.', ',')}</span>
           </div>
         </div>
 

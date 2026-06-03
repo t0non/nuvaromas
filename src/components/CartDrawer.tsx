@@ -74,7 +74,7 @@ export default function CartDrawer() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="font-plus-jakarta-sans font-bold text-sm text-deep-purple">R$ {item.priceNum * item.qty},00</p>
+                          <p className="font-plus-jakarta-sans font-bold text-sm text-deep-purple">R$ {(item.priceNum * item.qty).toFixed(2).replace('.', ',')}</p>
                         </div>
                       </div>
                     ))}
@@ -87,7 +87,7 @@ export default function CartDrawer() {
                <div className="p-6 border-t border-cinza-suave bg-white">
                   <div className="flex justify-between items-center mb-6">
                     <span className="font-medium text-texto-escuro/60">Subtotal</span>
-                    <span className="font-plus-jakarta-sans font-bold text-xl text-deep-purple">R$ {cartTotal},00</span>
+                    <span className="font-plus-jakarta-sans font-bold text-xl text-deep-purple">R$ {cartTotal.toFixed(2).replace('.', ',')}</span>
                   </div>
                   <button 
                     onClick={() => {
