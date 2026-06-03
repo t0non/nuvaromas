@@ -13,20 +13,20 @@ export default function AdminClientes() {
 
   async function fetchClientes() {
     setLoading(true);
-    // Como os clientes não têm conta, puxamos de orders e agrupamos pelo email
-    const { data, error } = await supabase
-      .from('orders')
-      .select('customer_email, customer_name, customer_phone, total_amount, created_at')
-      .order('created_at', { ascending: false });
+    
+    try {
+      const response = await fetch('/api/admin/customers');
+      if (!response.ok) throw new Error('Failed to fetch customers');
+      const data = await response.json();
       
-    if (!error && data) {
-      const grouped = data.reduce((acc: any, order: any) => {
-        const email = order.customer_email || 'Sem email';
-        if (!acc[email]) {
-          acc[email] = {
-            email,
-            name: order.customer_name,
-            phone: order.customer_phone,
+      const map = new Map();
+      data.forEach((order: any) => {
+        if (!order.customer_email) return;
+        if (!map.has(order.customer_email)) {
+          map.set(order.customer_email, {
+            email: order.customer_email,
+            name: order.customer_name || 'Sem nome',
+            phone: order.customer_phone || '',
             totalSpent: 0,
             ordersCount: 0,
             lastOrder: order.created_at,

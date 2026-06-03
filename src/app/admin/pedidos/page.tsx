@@ -13,15 +13,16 @@ export default function AdminPedidos() {
 
   async function fetchOrders() {
     setLoading(true);
-    // Puxa os pedidos mais recentes primeiro
-    const { data, error } = await supabase
-      .from('orders')
-      .select('*')
-      .order('created_at', { ascending: false });
-      
-    if (!error && data) {
+    
+    try {
+      const response = await fetch('/api/admin/orders');
+      if (!response.ok) throw new Error('Failed to fetch orders');
+      const data = await response.json();
       setOrders(data);
+    } catch (error) {
+      console.error(error);
     }
+    
     setLoading(false);
   }
 
