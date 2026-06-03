@@ -20,17 +20,20 @@ function OrderPendingContent() {
 
     if (!orderId) return;
 
-    // Função que verifica o status no Supabase
+    // Função que verifica o status através da nossa API
     const checkPaymentStatus = async () => {
-      const { supabase } = await import('@/lib/supabase');
-      const { data } = await supabase
-        .from('orders')
-        .select('payment_status')
-        .eq('id', orderId)
-        .single();
-      
-      if (data && data.payment_status === 'approved') {
-        router.push(`/pedido/sucesso?order=${orderId}`);
+      try {
+        const response = await fetch(`/api/orders/status?id=${orderId}`);
+        if (!response.ok) return;
+        const data = await response.json();
+        
+        if (data.status === 'approved') {
+          router.push(`/pedido/sucesso?order=${orderId}`);
+        } else if (data.status === 'rejected' || data.status === 'cancelled') {
+          router.push(`/pedido/erro?order=${orderId}`);
+        }
+      } catch (error) {
+        console.error('Erro ao verificar status do pagamento:', error);
       }
     };
 
