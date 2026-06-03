@@ -19,12 +19,11 @@ export default function AdminClientes() {
       if (!response.ok) throw new Error('Failed to fetch customers');
       const data = await response.json();
       
-      const map = new Map();
-      data.forEach((order: any) => {
-        if (!order.customer_email) return;
-        if (!map.has(order.customer_email)) {
-          map.set(order.customer_email, {
-            email: order.customer_email,
+      const grouped = data.reduce((acc: any, order: any) => {
+        const email = order.customer_email || 'Sem email';
+        if (!acc[email]) {
+          acc[email] = {
+            email,
             name: order.customer_name || 'Sem nome',
             phone: order.customer_phone || '',
             totalSpent: 0,
@@ -32,21 +31,23 @@ export default function AdminClientes() {
             lastOrder: order.created_at,
           };
         }
-        acc[email].totalSpent += Number(order.total_amount);
+        acc[email].totalSpent += Number(order.total_amount) || 0;
         acc[email].ordersCount += 1;
-        // Atualiza para o nome/telefone mais recente
+        
         if (new Date(order.created_at) > new Date(acc[email].lastOrder)) {
-          acc[email].name = order.customer_name;
-          acc[email].phone = order.customer_phone;
+          acc[email].name = order.customer_name || acc[email].name;
+          acc[email].phone = order.customer_phone || acc[email].phone;
           acc[email].lastOrder = order.created_at;
         }
         return acc;
       }, {});
 
-      // Converte o objeto de volta para array
       const clientesArray = Object.values(grouped).sort((a: any, b: any) => b.totalSpent - a.totalSpent);
       setClientes(clientesArray);
+    } catch (error) {
+      console.error(error);
     }
+    
     setLoading(false);
   }
 
