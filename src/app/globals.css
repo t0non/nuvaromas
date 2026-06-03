@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-plus-jakarta-sans: var(--font-plus-jakarta-sans);
+  --font-inter: var(--font-inter);
+  
+  --color-deep-purple: #B298ED;
+  --color-lavanda: #B298ED;
+  --color-lavanda-clara: #DCCBFF;
+  --color-off-white: #FAF8F6;
+  --color-creme: #F3EDE8;
+  --color-cinza-suave: #E9E6E3;
+  --color-texto-escuro: #252525;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: var(--color-off-white);
+  color: var(--color-texto-escuro);
+}
