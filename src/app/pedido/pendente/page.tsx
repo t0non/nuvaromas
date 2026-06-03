@@ -1,10 +1,10 @@
 'use client';
 import { Clock, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-export default function OrderPending() {
+function OrderPendingContent() {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [qrCodeBase64, setQrCodeBase64] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -40,6 +40,7 @@ export default function OrderPending() {
 
     return () => clearInterval(interval);
   }, [orderId, router]);
+
   const handleCopy = () => {
     if (qrCode) {
       navigator.clipboard.writeText(qrCode);
@@ -98,5 +99,19 @@ export default function OrderPending() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OrderPending() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[80vh] flex items-center justify-center p-4">
+        <div className="max-w-md w-full text-center space-y-6 bg-white p-8 rounded-3xl shadow-xl border border-cinza-suave/40">
+           <h1 className="font-plus-jakarta-sans text-xl font-bold text-deep-purple">Carregando detalhes do pedido...</h1>
+        </div>
+      </div>
+    }>
+      <OrderPendingContent />
+    </Suspense>
   );
 }
