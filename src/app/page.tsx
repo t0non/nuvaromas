@@ -55,107 +55,53 @@ export default function NuvPremiumLanding() {
     { name: 'Óleos Essenciais', img: 'bg-lavanda-clara', imgUrl: '/oleo_essencia_lavanda.png?v=1' }
   ];
 
-  const featuredProducts = [
-    { 
-      id: 1, 
-      name: 'Vela NUV Lavanda Calma', 
-      price: 'R$ 49,90', 
-      priceNum: 49.90,
-      desc: 'Vela aromática artesanal de 180g com cera vegetal pura e pavio de algodão. Aroma envolvente de Lavanda e Camomila.', 
-      imgUrl: '/vela_lavanda_calma.png?v=1', 
-      img: 'bg-[#F3EDE8]',
-      aromas: ['Lavanda & Camomila'],
-      gallery: [
-        { type: 'image', url: '/vela_lavanda_calma.png?v=1' },
-        { type: 'concept', title: 'Lavanda & Camomila', subtitle: 'Proporciona uma experiência relaxante associada com calma, descanso e noites tranquilas.' },
-        { type: 'notes', topo: 'Lavanda fresca, folhas de camomila.', coracao: 'Flor de camomila, jasmim, notas florais.', base: 'Baunilha suave, sândalo, âmbar.' },
-        { type: 'image', url: '/vela_lavanda_calma.png?v=1' }
-      ]
-    },
-    { 
-      id: 2, 
-      name: 'Vela NUV Aconchego', 
-      price: 'R$ 54,90', 
-      priceNum: 54.90,
-      desc: 'Vela aromática artesanal de 180g com cera vegetal pura e pavio de algodão. Aroma doce e caloroso de Baunilha e Âmbar.', 
-      imgUrl: '/vela_baunilha_e_ambar.png?v=1', 
-      img: 'bg-[#F3EDE8]',
-      aromas: ['Baunilha & Âmbar'],
-      gallery: [
-        { type: 'image', url: '/vela_baunilha_e_ambar.png?v=1' },
-        { type: 'concept', title: 'Baunilha & Âmbar', subtitle: 'Fragrância doce e quente que traz aconchego e sensação de casa acolhedora e perfumada.' },
-        { type: 'notes', topo: 'Cassis, bergamota, notas frutadas.', coracao: 'Orquídea, jasmim, flor de baunilha.', base: 'Âmbar quente, sândalo, musk doce.' },
-        { type: 'image', url: '/vela_baunilha_e_ambar.png?v=1' }
-      ]
-    },
-    { 
-      id: 3, 
-      name: 'Vela NUV Casa Serena', 
-      price: 'R$ 59,90', 
-      priceNum: 59.90,
-      desc: 'Vela aromática artesanal de 180g com cera vegetal pura e pavio de algodão. Aroma premium, clean e sofisticado de Bamboo e Chá Branco.', 
-      imgUrl: '/vela_bamboo_cha_branco.png?v=1', 
-      img: 'bg-[#F3EDE8]',
-      aromas: ['Bamboo & Chá Branco'],
-      gallery: [
-        { type: 'image', url: '/vela_bamboo_cha_branco.png?v=1' },
-        { type: 'concept', title: 'Bamboo & Chá Branco', subtitle: 'Fragrância sofisticada, clean e refrescante que remete ao requinte de hotéis de luxo e lojas elegantes.' },
-        { type: 'notes', topo: 'Bambu fresco, bergamota, notas verdes.', coracao: 'Chá branco, jasmim, lírio-do-vale.', base: 'Almíscar suave, sândalo, âmbar.' },
-        { type: 'image', url: '/vela_bamboo_cha_branco.png?v=1' }
-      ]
-    }
-  ];
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+  const [essentialOils, setEssentialOils] = useState<any[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
-  const essentialOils = [
-    {
-      id: 5,
-      name: 'Óleo Essencial Lavanda 10ml | Curadoria NUV Aromas',
-      price: 'R$ 69,90',
-      priceNum: 69.90,
-      desc: 'Óleo essencial de Lavanda 100% puro e natural, selecionado sob curadoria da NUV Aromas. Traz o frescor relaxante clássico da lavanda em gotas concentradas para difusão.',
-      imgUrl: '/oleo_essencia_lavanda.png?v=1',
-      img: 'bg-[#E9E6E3]',
-      aromas: ['Original'],
-      gallery: [
-        { type: 'image', url: '/oleo_essencia_lavanda.png?v=1' },
-        { type: 'concept', title: 'Lavanda Francesa', subtitle: 'A pureza relaxante dos campos de lavanda em gotas concentradas para higiene do sono.' },
-        { type: 'notes', topo: 'Lavanda fresca, bergamota.', coracao: 'Lavanda clássica, sálvia esclareia.', base: 'Baunilha suave, musk.' },
-        { type: 'image', url: '/oleo_essencia_lavanda.png?v=1' }
-      ]
-    },
-    {
-      id: 6,
-      name: 'Óleo Essencial Capim-Limão (Lemongrass) 10ml | Curadoria NUV Aromas',
-      price: 'R$ 39,90',
-      priceNum: 39.90,
-      desc: 'Óleo essencial de Capim-Limão (Lemongrass) 100% puro e natural, selecionado sob curadoria da NUV Aromas. Traz um aroma herbal cítrico e fresco, ideal para energizar e perfumar a sala ou cozinha.',
-      imgUrl: '/oleo_essencia_limao.png?v=1',
-      img: 'bg-[#E9E6E3]',
-      aromas: ['Original'],
-      gallery: [
-        { type: 'image', url: '/oleo_essencia_limao.png?v=1' },
-        { type: 'concept', title: 'Capim-Limão Puro', subtitle: 'O frescor alegre e cítrico das ervas recém-cortadas para renovar os ares da sala ou cozinha.' },
-        { type: 'notes', topo: 'Mandarina, limão siciliano.', coracao: 'Capim-limão, gengibre.', base: 'Vetiver, notas herbais.' },
-        { type: 'image', url: '/oleo_essencia_limao.png?v=1' }
-      ]
-    },
-    {
-      id: 7,
-      name: 'Óleo Essencial Eucalipto 10ml | Curadoria NUV Aromas',
-      price: 'R$ 39,90',
-      priceNum: 39.90,
-      desc: 'Óleo essencial de Eucalipto 100% puro e natural, selecionado sob curadoria da NUV Aromas. Aroma fresco e canforado que remete a uma relaxante sensação de limpeza, refrescância e banho morno.',
-      imgUrl: '/oleo_essencia_eucalipto.png?v=1',
-      img: 'bg-[#E9E6E3]',
-      aromas: ['Original'],
-      gallery: [
-        { type: 'image', url: '/oleo_essencia_eucalipto.png?v=1' },
-        { type: 'concept', title: 'Eucalipto Fresco', subtitle: 'Aroma fresco e canforado que remete a uma relaxante sensação de limpeza e banho refrescante.' },
-        { type: 'notes', topo: 'Eucalipto fresco, menta campestre.', coracao: 'Cânfora, pinho silvestre.', base: 'Cedro, notas herbais e terrosas.' },
-        { type: 'image', url: '/oleo_essencia_eucalipto.png?v=1' }
-      ]
+  React.useEffect(() => {
+    async function loadProducts() {
+      const { supabase } = await import('@/lib/supabase');
+      const { data } = await supabase.from('products').select('*').eq('is_active', true).order('created_at', { ascending: true });
+      
+      if (data) {
+        // Separa os produtos em Velas e Óleos baseando-se no nome
+        const velas = data.filter(p => p.name.toLowerCase().includes('vela')).map(p => ({
+          ...p,
+          priceNum: Number(p.price),
+          price: `R$ ${Number(p.price).toFixed(2).replace('.', ',')}`,
+          desc: p.description,
+          imgUrl: p.image_url,
+          aromas: p.aromas ? p.aromas.split(',') : ['Original'],
+          // Mantendo uma galeria básica gerada a partir da foto principal para não quebrar o layout
+          gallery: [
+            { type: 'image', url: p.image_url },
+            { type: 'concept', title: p.aromas, subtitle: 'Aroma relaxante e envolvente.' },
+            { type: 'image', url: p.image_url }
+          ]
+        }));
+
+        const oleos = data.filter(p => p.name.toLowerCase().includes('óleo') || p.name.toLowerCase().includes('oleo')).map(p => ({
+          ...p,
+          priceNum: Number(p.price),
+          price: `R$ ${Number(p.price).toFixed(2).replace('.', ',')}`,
+          desc: p.description,
+          imgUrl: p.image_url,
+          aromas: p.aromas ? p.aromas.split(',') : ['Original'],
+          gallery: [
+            { type: 'image', url: p.image_url },
+            { type: 'concept', title: p.aromas, subtitle: '100% puro e natural.' },
+            { type: 'image', url: p.image_url }
+          ]
+        }));
+
+        setFeaturedProducts(velas);
+        setEssentialOils(oleos);
+      }
+      setLoadingProducts(false);
     }
-  ];
+    loadProducts();
+  }, []);
 
   return (
     <div className="min-h-screen bg-off-white text-texto-escuro font-inter overflow-x-hidden">
